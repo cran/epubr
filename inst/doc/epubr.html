@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Introduction to epubr</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to epubr</h1>
+
+
+
+<p>The <code>epubr</code> package provides functions supporting the reading and parsing of internal e-book content from EPUB files. E-book metadata and text content are parsed separately and joined together in a tidy, nested tibble data frame.</p>
+<p>E-book formatting is non-standard enough across all literature that no function can curate parsed e-book content across an arbitrary collection of e-books, in completely general form, resulting in a singular, consistently formatted output containing all the same variables.</p>
+<p>EPUB file parsing functionality in this package is intended for relatively general application to arbitrary EPUB e-books. However, poorly formatted e-books or e-books with highly uncommon formatting may not work with this package. There may even be cases where an EPUB file has DRM or some other property that makes it impossible to read with <code>epubr</code>.</p>
+<p>Text is read ‘as is’. Additional text cleaning should be performed by the user at their discretion, such as with functions from packages like <code>tm</code> or <code>qdap</code>.</p>
+<div id="read-epub-files" class="section level2">
+<h2>Read EPUB files</h2>
+<p>Bram Stoker’s Dracula novel sourced from Project Gutenberg is a good example of an EPUB file with unfortunate formatting. The first thing that stands out is the naming convention using <code>item</code> followed by some ordered digits does not differentiate sections like the book preamble from the chapters. The numbering also starts in a weird place. But it is actually worse than this. Notice that sections are not broken into chapters; they can begin and end in the middle of chapters!</p>
+<p>These annoyances aside, the metadata and contents can still be read into a convenient table. Text mining analyses can still be performed on the overall book, if not so easily on individual chapters.</p>
+<p>Here a single file is read with <code>epub</code>. The output of the returned primary data frame and the book text data frame that is nested within its <code>data</code> column are shown.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(epubr)
+file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;dracula.epub&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;epubr&quot;</span>)
+(x &lt;-<span class="st"> </span><span class="kw">epub</span>(file))
+<span class="co">#&gt; # A tibble: 1 x 9</span>
+<span class="co">#&gt;   rights  identifier   creator  title language subject date  source  data </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;lis&gt;</span>
+<span class="co">#&gt; 1 Public~ http://www.~ Bram St~ Drac~ en       Horror~ 1995~ http:/~ &lt;tib~</span>
+
+x<span class="op">$</span>data[[<span class="dv">1</span>]]
+<span class="co">#&gt; # A tibble: 15 x 4</span>
+<span class="co">#&gt;    section           text                                      nword nchar</span>
+<span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                     &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 item6             &quot;The Project Gutenberg EBook of Dracula,~ 11252 60972</span>
+<span class="co">#&gt;  2 item7             &quot;But I am not in heart to describe beaut~ 13740 71798</span>
+<span class="co">#&gt;  3 item8             &quot;“ ‘Lucy, you are an honest-hearted girl~ 12356 65522</span>
+<span class="co">#&gt;  4 item9             &quot;CHAPTER VIIIMINA MURRAY’S JOURNAL\nSame~ 12042 62724</span>
+<span class="co">#&gt;  5 item10            &quot;CHAPTER X\nLetter, Dr. Seward to Hon. A~ 12599 66678</span>
+<span class="co">#&gt;  6 item11            &quot;Once again we went through that ghastly~ 11919 62949</span>
+<span class="co">#&gt;  7 item12            &quot;CHAPTER XIVMINA HARKER’S JOURNAL\n23 Se~ 12003 62234</span>
+<span class="co">#&gt;  8 item13            &quot;CHAPTER XVIDR. SEWARD’S DIARY—continued~ 13812 72903</span>
+<span class="co">#&gt;  9 item14            &quot;“Thus when we find the habitation of th~ 13201 69779</span>
+<span class="co">#&gt; 10 item15            &quot;“I see,” I said. “You want big things t~ 12706 66921</span>
+<span class="co">#&gt; 11 item16            &quot;CHAPTER XXIIIDR. SEWARD’S DIARY\n3 Octo~ 11818 61550</span>
+<span class="co">#&gt; 12 item17            &quot;CHAPTER XXVDR. SEWARD’S DIARY\n11 Octob~ 12989 68564</span>
+<span class="co">#&gt; 13 item18            &quot; \nLater.—Dr. Van Helsing has returned.~  8356 43464</span>
+<span class="co">#&gt; 14 item19            &quot;End of the Project Gutenberg EBook of D~  2669 18541</span>
+<span class="co">#&gt; 15 coverpage-wrapper &quot;&quot;                                            0     0</span></code></pre></div>
+<p>The <code>file</code> argument may be a vector of EPUB files. There is one row for each book.</p>
+</div>
+<div id="epub-metadata" class="section level2">
+<h2>EPUB metadata</h2>
+<p>The above examples jump right in, but it can be helpful to inspect file metadata before reading a large number of books into memory. Formatting may differ across books. It can be helpful to know what fields to expect, the degree of consistency, and what content you may want to drop during the file reading process. <code>epub_meta</code> strictly parses file metadata and does not read the e-book text.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">epub_meta</span>(file)
+<span class="co">#&gt; # A tibble: 1 x 8</span>
+<span class="co">#&gt;   rights    identifier    creator  title language subject date  source    </span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;     </span>
+<span class="co">#&gt; 1 Public d~ http://www.g~ Bram St~ Drac~ en       Horror~ 1995~ http://ww~</span></code></pre></div>
+<p>This provides the big picture, though it will not reveal the internal breakdown of book section naming conventions that were seen in the first <code>epub</code> example.</p>
+<p><code>file</code> can also be a vector for <code>epub_meta</code>. Whenever <code>file</code> is a vector, the fields (columns) returned are the union of all fields detected across all EPUB files. Any books (rows) that do not have a field found in another book return <code>NA</code> for that row and column.</p>
+</div>
+<div id="additonal-arguments" class="section level2">
+<h2>Additonal arguments</h2>
+<p>There are three optional arguments that can be provided to <code>epub</code> to:</p>
+<ul>
+<li>select fields, or columns of the primary data frame.</li>
+<li>filter sections, or rows of the nested data frame.</li>
+<li>attempt to detect which rows or sections in the nested data frame identify book chapters.</li>
+</ul>
+<p>Unless you have a collection of well-formatted and similarly formatted EPUB files, these arguments may not be helpful and can be ignored, especially chapter detection.</p>
+<div id="select-fields" class="section level3">
+<h3>Select fields</h3>
+<p>Selecting fields is straightforward. All fields found are returned unless a vector of fields is provided.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">epub</span>(file, <span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">&quot;title&quot;</span>, <span class="st">&quot;creator&quot;</span>, <span class="st">&quot;file&quot;</span>))
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;   title   creator     file         data             </span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;        &lt;list&gt;           </span>
+<span class="co">#&gt; 1 Dracula Bram Stoker dracula.epub &lt;tibble [15 x 4]&gt;</span></code></pre></div>
+<p>Note that <code>file</code> was not a field identified in the metadata. This is a special case. Including <code>file</code> will include the <code>basename</code> of the input file. This is helpful when you want to retain file names and <code>source</code> is included in the metadata but may represent something else. Some fields like <code>data</code> are always returned and do not need to be specified in <code>fields</code>.</p>
+</div>
+<div id="drop-sections" class="section level3">
+<h3>Drop sections</h3>
+<p>Filtering out unwanted sections, or rows of the nested data frame, uses a regular expression pattern. Matched rows are dropped. This is where knowing the naming conventions used in the e-books in <code>file</code>, or at least knowing they are satisfactorily consistent and predictable for a collection, helps with removing extraneous clutter.</p>
+<p>One section that can be discarded is the cover. For many books it can be helpful to use a pattern like <code>&quot;^(C|c)ov&quot;</code> to drop any sections whose IDs begin with <code>Cov</code>, <code>cov</code>, and may be that abbreviation or the full word. For this book, <code>cov</code> suffices. The nested data frame has one less row than before.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">epub</span>(file, <span class="dt">drop_sections =</span> <span class="st">&quot;cov&quot;</span>)<span class="op">$</span>data[[<span class="dv">1</span>]]
+<span class="co">#&gt; # A tibble: 14 x 4</span>
+<span class="co">#&gt;    section text                                                nword nchar</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                                               &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 item6   &quot;The Project Gutenberg EBook of Dracula, by Bram S~ 11252 60972</span>
+<span class="co">#&gt;  2 item7   &quot;But I am not in heart to describe beauty, for whe~ 13740 71798</span>
+<span class="co">#&gt;  3 item8   &quot;“ ‘Lucy, you are an honest-hearted girl, I know. ~ 12356 65522</span>
+<span class="co">#&gt;  4 item9   &quot;CHAPTER VIIIMINA MURRAY’S JOURNAL\nSame day, 11 o~ 12042 62724</span>
+<span class="co">#&gt;  5 item10  &quot;CHAPTER X\nLetter, Dr. Seward to Hon. Arthur Holm~ 12599 66678</span>
+<span class="co">#&gt;  6 item11  &quot;Once again we went through that ghastly operation~ 11919 62949</span>
+<span class="co">#&gt;  7 item12  &quot;CHAPTER XIVMINA HARKER’S JOURNAL\n23 September.—J~ 12003 62234</span>
+<span class="co">#&gt;  8 item13  &quot;CHAPTER XVIDR. SEWARD’S DIARY—continued\nIT was j~ 13812 72903</span>
+<span class="co">#&gt;  9 item14  &quot;“Thus when we find the habitation of this man-tha~ 13201 69779</span>
+<span class="co">#&gt; 10 item15  &quot;“I see,” I said. “You want big things that you ca~ 12706 66921</span>
+<span class="co">#&gt; 11 item16  &quot;CHAPTER XXIIIDR. SEWARD’S DIARY\n3 October.—The t~ 11818 61550</span>
+<span class="co">#&gt; 12 item17  &quot;CHAPTER XXVDR. SEWARD’S DIARY\n11 October, Evenin~ 12989 68564</span>
+<span class="co">#&gt; 13 item18  &quot; \nLater.—Dr. Van Helsing has returned. He has go~  8356 43464</span>
+<span class="co">#&gt; 14 item19  &quot;End of the Project Gutenberg EBook of Dracula, by~  2669 18541</span></code></pre></div>
+</div>
+<div id="guess-chapters" class="section level3">
+<h3>Guess chapters</h3>
+<p>This e-book unfortunately does not have great formatting. For the sake of example, pretend that chapters are known to be sections beginning with <code>item</code> and followed by <em>two</em> digits, using the pattern <code>^item\\d\\d</code>. This does two things. It adds a new metadata column to the primary data frame called <code>nchap</code> giving the estimated number of chapters in the book. In the nested data frame containing the parsed e-book text, the <code>section</code> column is conditionally mutated to reflect a new, consistent chapter naming convention for the identified chapters and a logical <code>is_chapter</code> column is added.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">epub</span>(file, <span class="dt">drop_sections =</span> <span class="st">&quot;cov&quot;</span>, <span class="dt">chapter_pattern =</span> <span class="st">&quot;^item</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d&quot;</span>)
+x
+<span class="co">#&gt; # A tibble: 1 x 10</span>
+<span class="co">#&gt;   rights  identifier   creator title language subject date  source   nchap</span>
+<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1 Public~ http://www.~ Bram S~ Drac~ en       Horror~ 1995~ http://~    10</span>
+<span class="co">#&gt; # ... with 1 more variable: data &lt;list&gt;</span>
+
+x<span class="op">$</span>data[[<span class="dv">1</span>]]
+<span class="co">#&gt; # A tibble: 14 x 5</span>
+<span class="co">#&gt;    section text                                     is_chapter nword nchar</span>
+<span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;                                    &lt;lgl&gt;      &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 item6   &quot;The Project Gutenberg EBook of Dracula~ FALSE      11252 60972</span>
+<span class="co">#&gt;  2 item7   &quot;But I am not in heart to describe beau~ FALSE      13740 71798</span>
+<span class="co">#&gt;  3 item8   &quot;“ ‘Lucy, you are an honest-hearted gir~ FALSE      12356 65522</span>
+<span class="co">#&gt;  4 item9   &quot;CHAPTER VIIIMINA MURRAY’S JOURNAL\nSam~ FALSE      12042 62724</span>
+<span class="co">#&gt;  5 ch01    &quot;CHAPTER X\nLetter, Dr. Seward to Hon. ~ TRUE       12599 66678</span>
+<span class="co">#&gt;  6 ch02    &quot;Once again we went through that ghastl~ TRUE       11919 62949</span>
+<span class="co">#&gt;  7 ch03    &quot;CHAPTER XIVMINA HARKER’S JOURNAL\n23 S~ TRUE       12003 62234</span>
+<span class="co">#&gt;  8 ch04    &quot;CHAPTER XVIDR. SEWARD’S DIARY—continue~ TRUE       13812 72903</span>
+<span class="co">#&gt;  9 ch05    &quot;“Thus when we find the habitation of t~ TRUE       13201 69779</span>
+<span class="co">#&gt; 10 ch06    &quot;“I see,” I said. “You want big things ~ TRUE       12706 66921</span>
+<span class="co">#&gt; 11 ch07    &quot;CHAPTER XXIIIDR. SEWARD’S DIARY\n3 Oct~ TRUE       11818 61550</span>
+<span class="co">#&gt; 12 ch08    &quot;CHAPTER XXVDR. SEWARD’S DIARY\n11 Octo~ TRUE       12989 68564</span>
+<span class="co">#&gt; 13 ch09    &quot; \nLater.—Dr. Van Helsing has returned~ TRUE        8356 43464</span>
+<span class="co">#&gt; 14 ch10    &quot;End of the Project Gutenberg EBook of ~ TRUE        2669 18541</span></code></pre></div>
+<p>Also note that not all books have chapters. Make sure an optional argument makes sense to use with a given e-book.</p>
+<p>Some e-books have formatting that puts chapter sections completely out of order even when they may be easily separable from other book sections and this can be another roadblock, as you may correctly identify and distinguish chapters from other book sections like cover, title, copyright and acknowledgements pages, but you will number the chapters incorrectly.</p>
+<p>There are some developmental options that can get around issues like this in certain edge cases and where certain reasonable conditions can be met. For example, a second pass can be attempted internally in a call to <code>epub</code> to cross reference guessed chapter sections with the presence of something like <code>CHAPTER</code> (or some other secondary regular expression pattern) appearing at the beginning of the actual section text. All is not necessarily lost when file metadata formatting is not useful for a given e-book.</p>
+<p>These developmental arguments are currently undocumented, though they can be explored if you are inclined to read the package source code and pass additional arguments to <code>...</code>. They have been tested successfully on many e-books, but certainly not a representative sample of all e-books. The approaches these arguments use may also change before they are formally supported and explicitly added to a future version of the package.</p>
+<p>Ultimately though, everything depends on the quality of the EPUB file. Some publishers are better than others. Formatting standards may also change over time.</p>
+</div>
+</div>
+<div id="unzip-epub-file" class="section level2">
+<h2>Unzip EPUB file</h2>
+<p>Separate from using <code>epub_meta</code> and <code>epub</code>, you can call <code>epub_unzip</code> directly if all you want to do is extract the files from the <code>.epub</code> file archive. By default the archive files are extracted to <code>tempdir()</code> so you may to change this with the <code>exdir</code> argument.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bookdir &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">&quot;dracula&quot;</span>)
+<span class="kw">epub_unzip</span>(file, <span class="dt">exdir =</span> bookdir)
+<span class="kw">list.files</span>(bookdir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)
+<span class="co">#&gt;  [1] &quot;META-INF/container.xml&quot;                                                  </span>
+<span class="co">#&gt;  [2] &quot;OEBPS/0.css&quot;                                                             </span>
+<span class="co">#&gt;  [3] &quot;OEBPS/1.css&quot;                                                             </span>
+<span class="co">#&gt;  [4] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-0.htm.html&quot;   </span>
+<span class="co">#&gt;  [5] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-1.htm.html&quot;   </span>
+<span class="co">#&gt;  [6] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-10.htm.html&quot;  </span>
+<span class="co">#&gt;  [7] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-11.htm.html&quot;  </span>
+<span class="co">#&gt;  [8] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-12.htm.html&quot;  </span>
+<span class="co">#&gt;  [9] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-13.htm.html&quot;  </span>
+<span class="co">#&gt; [10] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-2.htm.html&quot;   </span>
+<span class="co">#&gt; [11] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-3.htm.html&quot;   </span>
+<span class="co">#&gt; [12] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-4.htm.html&quot;   </span>
+<span class="co">#&gt; [13] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-5.htm.html&quot;   </span>
+<span class="co">#&gt; [14] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-6.htm.html&quot;   </span>
+<span class="co">#&gt; [15] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-7.htm.html&quot;   </span>
+<span class="co">#&gt; [16] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-8.htm.html&quot;   </span>
+<span class="co">#&gt; [17] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@345-h-9.htm.html&quot;   </span>
+<span class="co">#&gt; [18] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@images@colophon.png&quot;</span>
+<span class="co">#&gt; [19] &quot;OEBPS/@public@vhost@g@gutenberg@html@files@345@345-h@images@cover.jpg&quot;   </span>
+<span class="co">#&gt; [20] &quot;OEBPS/content.opf&quot;                                                       </span>
+<span class="co">#&gt; [21] &quot;OEBPS/pgepub.css&quot;                                                        </span>
+<span class="co">#&gt; [22] &quot;OEBPS/toc.ncx&quot;                                                           </span>
+<span class="co">#&gt; [23] &quot;OEBPS/wrap0000.html&quot;                                                     </span>
+<span class="co">#&gt; [24] &quot;mimetype&quot;</span></code></pre></div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
