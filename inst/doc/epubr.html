@@ -89,23 +89,23 @@ file &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span cla
 
 x<span class="op">$</span>data[[<span class="dv">1</span>]]
 <span class="co">#&gt; # A tibble: 15 x 4</span>
-<span class="co">#&gt;    section           text                                      nword nchar</span>
-<span class="co">#&gt;    &lt;chr&gt;             &lt;chr&gt;                                     &lt;int&gt; &lt;int&gt;</span>
-<span class="co">#&gt;  1 item6             &quot;The Project Gutenberg EBook of Dracula,~ 11252 60972</span>
-<span class="co">#&gt;  2 item7             &quot;But I am not in heart to describe beaut~ 13740 71798</span>
-<span class="co">#&gt;  3 item8             &quot;“ ‘Lucy, you are an honest-hearted girl~ 12356 65522</span>
-<span class="co">#&gt;  4 item9             &quot;CHAPTER VIIIMINA MURRAY’S JOURNAL\nSame~ 12042 62724</span>
-<span class="co">#&gt;  5 item10            &quot;CHAPTER X\nLetter, Dr. Seward to Hon. A~ 12599 66678</span>
-<span class="co">#&gt;  6 item11            &quot;Once again we went through that ghastly~ 11919 62949</span>
-<span class="co">#&gt;  7 item12            &quot;CHAPTER XIVMINA HARKER’S JOURNAL\n23 Se~ 12003 62234</span>
-<span class="co">#&gt;  8 item13            &quot;CHAPTER XVIDR. SEWARD’S DIARY—continued~ 13812 72903</span>
-<span class="co">#&gt;  9 item14            &quot;“Thus when we find the habitation of th~ 13201 69779</span>
-<span class="co">#&gt; 10 item15            &quot;“I see,” I said. “You want big things t~ 12706 66921</span>
-<span class="co">#&gt; 11 item16            &quot;CHAPTER XXIIIDR. SEWARD’S DIARY\n3 Octo~ 11818 61550</span>
-<span class="co">#&gt; 12 item17            &quot;CHAPTER XXVDR. SEWARD’S DIARY\n11 Octob~ 12989 68564</span>
-<span class="co">#&gt; 13 item18            &quot; \nLater.—Dr. Van Helsing has returned.~  8356 43464</span>
-<span class="co">#&gt; 14 item19            &quot;End of the Project Gutenberg EBook of D~  2669 18541</span>
-<span class="co">#&gt; 15 coverpage-wrapper &quot;&quot;                                            0     0</span></code></pre></div>
+<span class="co">#&gt;    section       text                                          nword nchar</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;                                         &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 item6         &quot;The Project Gutenberg EBook of Dracula, by ~ 11252 60972</span>
+<span class="co">#&gt;  2 item7         &quot;But I am not in heart to describe beauty, f~ 13740 71798</span>
+<span class="co">#&gt;  3 item8         &quot;“ ‘Lucy, you are an honest-hearted girl, I ~ 12356 65522</span>
+<span class="co">#&gt;  4 item9         &quot;CHAPTER VIIIMINA MURRAY’S JOURNAL\nSame day~ 12042 62724</span>
+<span class="co">#&gt;  5 item10        &quot;CHAPTER X\nLetter, Dr. Seward to Hon. Arthu~ 12599 66678</span>
+<span class="co">#&gt;  6 item11        &quot;Once again we went through that ghastly ope~ 11919 62949</span>
+<span class="co">#&gt;  7 item12        &quot;CHAPTER XIVMINA HARKER’S JOURNAL\n23 Septem~ 12003 62234</span>
+<span class="co">#&gt;  8 item13        &quot;CHAPTER XVIDR. SEWARD’S DIARY—continued\nIT~ 13812 72903</span>
+<span class="co">#&gt;  9 item14        &quot;“Thus when we find the habitation of this m~ 13201 69779</span>
+<span class="co">#&gt; 10 item15        &quot;“I see,” I said. “You want big things that ~ 12706 66921</span>
+<span class="co">#&gt; 11 item16        &quot;CHAPTER XXIIIDR. SEWARD’S DIARY\n3 October.~ 11818 61550</span>
+<span class="co">#&gt; 12 item17        &quot;CHAPTER XXVDR. SEWARD’S DIARY\n11 October, ~ 12989 68564</span>
+<span class="co">#&gt; 13 item18        &quot; \nLater.—Dr. Van Helsing has returned. He ~  8356 43464</span>
+<span class="co">#&gt; 14 item19        &quot;End of the Project Gutenberg EBook of Dracu~  2669 18541</span>
+<span class="co">#&gt; 15 coverpage-wr~ &quot;&quot;                                                0     0</span></code></pre></div>
 <p>The <code>file</code> argument may be a vector of EPUB files. There is one row for each book.</p>
 </div>
 <div id="epub-metadata" class="section level2">
@@ -136,7 +136,8 @@ x<span class="op">$</span>data[[<span class="dv">1</span>]]
 <span class="co">#&gt;   title   creator     file         data             </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;       &lt;chr&gt;        &lt;list&gt;           </span>
 <span class="co">#&gt; 1 Dracula Bram Stoker dracula.epub &lt;tibble [15 x 4]&gt;</span></code></pre></div>
-<p>Note that <code>file</code> was not a field identified in the metadata. This is a special case. Including <code>file</code> will include the <code>basename</code> of the input file. This is helpful when you want to retain file names and <code>source</code> is included in the metadata but may represent something else. Some fields like <code>data</code> are always returned and do not need to be specified in <code>fields</code>.</p>
+<p>Note that <code>file</code> was not a field identified in the metadata. This is a special case. Including <code>file</code> will include the <code>basename</code> of the input file. This is helpful when you want to retain file names and <code>source</code> is included in the metadata but may represent something else. Some fields like <code>data</code> and <code>title</code> are always returned and do not need to be specified in <code>fields</code>.</p>
+<p>Also, if your e-book does not have a metadata field named <code>title</code>, you can pass an additional argument to <code>...</code> to map a different, known metadata field to <code>title</code>. E.g., <code>title = &quot;BookTitle&quot;</code>. The resulting table always has a <code>title</code> field, but in this case <code>title</code> would be populated with information from the <code>BookTitle</code> metadata field. If the default <code>title</code> field or any other field name passed to the additional <code>title</code> argument does not exist in the file metadata, the output <code>title</code> column falls back on filling in with the same unique file names obtained when requesting the <code>file</code> field.</p>
 </div>
 <div id="drop-sections" class="section level3">
 <h3>Drop sections</h3>
@@ -167,10 +168,9 @@ x<span class="op">$</span>data[[<span class="dv">1</span>]]
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">epub</span>(file, <span class="dt">drop_sections =</span> <span class="st">&quot;cov&quot;</span>, <span class="dt">chapter_pattern =</span> <span class="st">&quot;^item</span><span class="ch">\\</span><span class="st">d</span><span class="ch">\\</span><span class="st">d&quot;</span>)
 x
 <span class="co">#&gt; # A tibble: 1 x 10</span>
-<span class="co">#&gt;   rights  identifier   creator title language subject date  source   nchap</span>
-<span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;int&gt;</span>
-<span class="co">#&gt; 1 Public~ http://www.~ Bram S~ Drac~ en       Horror~ 1995~ http://~    10</span>
-<span class="co">#&gt; # ... with 1 more variable: data &lt;list&gt;</span>
+<span class="co">#&gt;   rights identifier creator title language subject date  source nchap data</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;li&gt;</span>
+<span class="co">#&gt; 1 Publi~ http://ww~ Bram S~ Drac~ en       Horror~ 1995~ http:~    10 &lt;ti~</span>
 
 x<span class="op">$</span>data[[<span class="dv">1</span>]]
 <span class="co">#&gt; # A tibble: 14 x 5</span>
@@ -191,15 +191,13 @@ x<span class="op">$</span>data[[<span class="dv">1</span>]]
 <span class="co">#&gt; 13 ch09    &quot; \nLater.—Dr. Van Helsing has returned~ TRUE        8356 43464</span>
 <span class="co">#&gt; 14 ch10    &quot;End of the Project Gutenberg EBook of ~ TRUE        2669 18541</span></code></pre></div>
 <p>Also note that not all books have chapters. Make sure an optional argument makes sense to use with a given e-book.</p>
-<p>Some e-books have formatting that puts chapter sections completely out of order even when they may be easily separable from other book sections and this can be another roadblock, as you may correctly identify and distinguish chapters from other book sections like cover, title, copyright and acknowledgements pages, but you will number the chapters incorrectly.</p>
-<p>There are some developmental options that can get around issues like this in certain edge cases and where certain reasonable conditions can be met. For example, a second pass can be attempted internally in a call to <code>epub</code> to cross reference guessed chapter sections with the presence of something like <code>CHAPTER</code> (or some other secondary regular expression pattern) appearing at the beginning of the actual section text. All is not necessarily lost when file metadata formatting is not useful for a given e-book.</p>
-<p>These developmental arguments are currently undocumented, though they can be explored if you are inclined to read the package source code and pass additional arguments to <code>...</code>. They have been tested successfully on many e-books, but certainly not a representative sample of all e-books. The approaches these arguments use may also change before they are formally supported and explicitly added to a future version of the package.</p>
-<p>Ultimately though, everything depends on the quality of the EPUB file. Some publishers are better than others. Formatting standards may also change over time.</p>
+<p>Some e-books have formatting that puts chapter sections completely out of order even when they may be easily separable from other book sections and this can be another roadblock, as you may correctly identify and distinguish chapters from other book sections like cover, title, copyright and acknowledgements pages, but you will number the chapters incorrectly. Other e-books do not even split the text into sections based on natural breaks in the original text like chapters, but rather are split into sections at arbitrary break points in the complete text.</p>
+<p>Ultimately, everything depends on the quality of the EPUB file. Some publishers are better than others. Formatting standards may also change over time.</p>
 </div>
 </div>
 <div id="unzip-epub-file" class="section level2">
 <h2>Unzip EPUB file</h2>
-<p>Separate from using <code>epub_meta</code> and <code>epub</code>, you can call <code>epub_unzip</code> directly if all you want to do is extract the files from the <code>.epub</code> file archive. By default the archive files are extracted to <code>tempdir()</code> so you may to change this with the <code>exdir</code> argument.</p>
+<p>Separate from using <code>epub_meta</code> and <code>epub</code>, you can call <code>epub_unzip</code> directly if all you want to do is extract the files from the <code>.epub</code> file archive. By default the archive files are extracted to <code>tempdir()</code> so you may want to change this with the <code>exdir</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bookdir &lt;-<span class="st"> </span><span class="kw">file.path</span>(<span class="kw">tempdir</span>(), <span class="st">&quot;dracula&quot;</span>)
 <span class="kw">epub_unzip</span>(file, <span class="dt">exdir =</span> bookdir)
 <span class="kw">list.files</span>(bookdir, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)
