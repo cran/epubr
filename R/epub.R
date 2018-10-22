@@ -53,12 +53,14 @@
 #' \code{epub} and \code{epub_meta} use \code{epub_unzip} internally to extract EPUB archive files to the R session temp directory (with \code{tempdir()}).
 #' You do not need to use \code{epub_unzip} directly prior to using these other functions. It is only needed if you want the internal files for some other purpose in or out of R.
 #' }
+#'
 #' @param file character, input EPUB filename. May be a vector for \code{epub} and \code{epub_meta}. Always a single file for \code{epub_unzip}.
 #' @param fields character, vector of metadata fields (data frame columns) to parse from metadata, if they exist. See details.
 #' @param drop_sections character, a regular expression pattern string to identify text sections (rows of nested text data frame) to drop.
 #' @param chapter_pattern character, a regular expression pattern string to attempt distinguishing nested data frame rows of chapter text entries from other types of entries.
-#' @param exdir character, extraction directory to place archive contents (files).
+#' @param encoding character, defaults to \code{"UTF-8"}.
 #' @param ... additional arguments. With the exception of passing \code{title} (see details), currently developmental/unsupported.
+#' @param exdir for \code{epub_unzip}, extraction directory to place archive contents (files). It will be created if necessary.
 #'
 #' @return \code{epub} returns a data frame. \code{epub_unzip} returns nothing but extracts files from an epub file archive.
 #' @export
@@ -77,7 +79,7 @@
 #' x$data[[1]]
 #'
 #' epub(file, fields = c("title", "creator"), drop_sections = "^cov")
-epub <- function(file, fields = NULL, drop_sections = NULL, chapter_pattern = NULL, ...){
+epub <- function(file, fields = NULL, drop_sections = NULL, chapter_pattern = NULL, encoding = "UTF-8", ...){
   .check_file(file)
   dots <- list(...)
   if(is.null(dots$title)){
@@ -87,31 +89,22 @@ epub <- function(file, fields = NULL, drop_sections = NULL, chapter_pattern = NU
     fields <- fields[fields != title]
   }
   add_pattern <- dots$add_pattern # nolint
-  series <- if(is.logical(dots$series)) dots$series else FALSE
-  dedication <- if(is.logical(dots$dedication)) dots$dedication else FALSE
-  parent_dir <- if(is.null(dots$parent_dir)) "novels" else dots$parent_dir
   d <- purrr::map_dfr(file, ~.epub_read(.x, fields = fields, drop_sections = drop_sections,
                                         chapter_pattern = chapter_pattern, add_pattern = add_pattern,
-                                        clean = dots$clean, title = title))
+                                        clean = dots$clean, title = title, encoding = encoding))
   path <- file
   if(!"file" %in% names(d) & "file" %in% fields) d <- dplyr::mutate(d, file = basename(path))
-  if(series) d <- dplyr::mutate(d, series = .get_series(path, FALSE, parent_dir),
-                                subseries = .get_series(path, TRUE, parent_dir))
   d <- tidyr::unnest(d)
   if("nchap" %in% names(d)) d <- dplyr::mutate(d, is_chapter = grepl("^ch\\d\\d$", .data[["section"]]))
   d <- dplyr::mutate(d, nchar = nchar(.data[["text"]]),
                      nword = purrr::map_int(strsplit(.data[["text"]], " "), length))
-  if(dedication) d <- dplyr::mutate(
-    d, dedication = ifelse(grepl("^ded", tolower(substr(.data[["section"]], 1, 3))), .data[["text"]], NA))
   if(inherits(drop_sections, "character")) d <- dplyr::filter(d, !grepl(drop_sections, .data[["section"]]))
   nested <- c("section", "text")
   if("is_chapter" %in% names(d)) nested <- c(nested, "is_chapter")
-  if(dedication) nested <- c(nested, "dedication")
   nested <- c(nested, "nword", "nchar")
   d <- tidyr::nest(d, !! nested)
   cols <- unique(c(fields, names(d)))
   cols <- cols[cols != "data"]
-  if(series) cols <- c(cols, c("series", "subseries"))
   if("nchap" %in% names(d)) cols <- c(cols, "nchap")
   cols <- unique(c(cols, "data"))
   if(!"date" %in% names(d)) d <- dplyr::mutate(d, date = NA)
@@ -186,8 +179,8 @@ epub_unzip <- function(file, exdir = tempdir()){
 }
 
 .epub_read <- function(file, epubfile = basename(file), fields = NULL, drop_sections = NULL,
-                       chapter_pattern = NULL, ...){
-  read <- if(requireNamespace("readr", quietly = TRUE)) readr::read_lines else readLines # nolint
+                       chapter_pattern = NULL, encoding = getOption("encoding"), ...){
+  use_readr <- requireNamespace("readr", quietly = TRUE) # nolint
   exdir <- file.path(tempdir(), gsub("[^A-Za-z0-9]", "", gsub("\\.epub", "", basename(file))))
   files <- epub_unzip(file, exdir)
   d <- .epub_meta(files, epubfile, fields = fields, drop_sections = drop_sections,
@@ -197,7 +190,16 @@ epub_unzip <- function(file, exdir = tempdir()){
   clean <- list(...)$clean # nolint
   x <- dplyr::data_frame(
     title = d$title, section = attr(d, "section order"), text = purrr::map_chr(files, ~{
-      read(.x) %>% paste0(collapse = "\n") %>% .clean(clean)
+      if(use_readr){
+        con <- file(.x, "rb", encoding = encoding)
+        x <- readr::read_lines(con)
+      } else {
+        con <- file(.x, "r", encoding = encoding)
+        x <- readLines(con, warn = FALSE)
+      }
+      x <- paste0(x, collapse = "\n") %>% .clean(clean)
+      close(con)
+      x
     }))
   unlink(exdir, recursive = TRUE, force = TRUE)
   attr(d, "section order") <- NULL

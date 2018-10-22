@@ -39,9 +39,8 @@ test_that("epub and epub_meta read as expected", {
   expect_true("file" %in% names(x))
   expect_equal(dim(x$data[[1]]), c(14, 5))
 
-  x <- epub(file, fields = c("title", "creator", "file"), series = TRUE, parent_dir = strsplit(file, "/")[[1]][1])
-  expect_equal(dim(x), c(1, 6))
-  expect_true(all(c("series", "subseries") %in% names(x)))
+  x <- epub(file, fields = c("title", "creator", "file"))
+  expect_equal(dim(x), c(1, 4))
   expect_equal(dim(x$data[[1]]), c(15, 4))
 
 
@@ -53,10 +52,9 @@ test_that("epub and epub_meta read as expected", {
   expect_identical(x$data[[1]]$is_chapter, rep(c(FALSE, TRUE), times = c(4, 10)))
   expect_equal(dim(x$data[[1]]), c(14, 5))
 
-  x <- epub(file, fields = c("title", "creator", "file"), dedication = TRUE)
+  x <- epub(file, fields = c("title", "creator", "file"))
   expect_equal(dim(x), c(1, 4))
-  expect_equal(dim(x$data[[1]]), c(15, 5))
-  expect_true("dedication" %in% names(x$data[[1]]))
+  expect_equal(dim(x$data[[1]]), c(15, 4))
 
   x <- epub(file, fields = c("file", "creator", "title"), title = "creator")
   y <- c("file", "title", "data")
@@ -70,6 +68,21 @@ test_that("epub and epub_meta read as expected", {
 
 test_that("epub_head returns as expected", {
   x <- epub_head(file)
+  y <- epub_head(epub(file))
+  expect_identical(x, y)
   expect_equal(names(x), c("section", "text"))
   expect_equal(dim(x), c(15, 2))
+})
+
+test_that("epub_head returns as expected", {
+  x <- epub(file)
+  x1 <- capture.output(epub_cat(file))
+  x2 <- capture.output(y <- epub_cat(x))
+  expect_identical(x1, x2)
+  expect_is(y, "NULL")
+
+  y <- length(capture.output(epub_cat(x, max_paragraphs = NULL, skip = 1)))
+  expect_equal(y, 4623)
+
+  expect_message(epub_cat(x, skip = 1e5), "`skip` is too large. All text skipped.")
 })
