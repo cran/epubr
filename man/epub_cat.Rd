@@ -4,9 +4,15 @@
 \alias{epub_cat}
 \title{Pretty printing of EPUB text}
 \usage{
-epub_cat(x, max_paragraphs = 10, skip = 0, paragraph_spacing = 1,
-  paragraph_indent = 2, section_sep = "====",
-  book_sep = "====\\n====")
+epub_cat(
+  x,
+  max_paragraphs = 10,
+  skip = 0,
+  paragraph_spacing = 1,
+  paragraph_indent = 2,
+  section_sep = "====",
+  book_sep = "====\\n===="
+)
 }
 \arguments{
 \item{x}{a data frame returned by \code{\link{epub}} or a character string giving the EPUB filename(s).}
@@ -36,9 +42,11 @@ This is useful for quickly obtaining an overview of the book text parsed by \cod
 To print everything in \code{x}, set \code{max_paragraphs = NULL}.
 }
 \examples{
+\donttest{
 file <- system.file("dracula.epub", package = "epubr")
 d <- epub(file)
 epub_cat(d, max_paragraphs = 2, skip = 147)
+}
 }
 \seealso{
 \code{\link{epub_head}}

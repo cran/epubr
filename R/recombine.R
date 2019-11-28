@@ -28,17 +28,21 @@
 #' @seealso \code{\link{epub_sift}}
 #'
 #' @examples
+#' \donttest{
 #' file <- system.file("dracula.epub", package = "epubr")
 #' x <- epub(file) # parse entire e-book
 #' x$data[[1]] # note arbitrary section breaks (not between chapters)
 #'
 #' pat <- "CHAPTER [IVX]+" # but a reliable pattern exists for new breaks
-#' epub_recombine(x, pat) # not quite as expected; pattern also appears in table of contents!
+#' epub_recombine(x, pat) # not as expected; pattern also in table of contents
 #'
-#' epub_recombine(x, pat, sift = list(n = 1000)) # also sift low word-count sections
+#' epub_recombine(x, pat, sift = list(n = 1000)) # sift low word-count sections
+#' }
 epub_recombine <- function(data, pattern, sift = NULL){
   data$data <- lapply(data$data, .epub_recombine, pattern)
-  data <- dplyr::mutate(data, nchap = sapply(.data[["data"]], function(x) sum(grepl("^ch\\d+$", x$section))))
+  data <- dplyr::mutate(
+    data, nchap = sapply(.data[["data"]],
+                         function(x) sum(grepl("^ch\\d+$", x$section))))
   if(which(names(data) == "data") == ncol(data) - 1){
     idx <- 1:ncol(data)
     n <- length(idx)
@@ -46,9 +50,11 @@ epub_recombine <- function(data, pattern, sift = NULL){
     data <- dplyr::select(data, idx)
   }
   if(!is.list(sift)) return(data)
-  if(!"n" %in% names(sift)) stop("`sift` argument is a list but does not contain `n`.")
+  if(!"n" %in% names(sift))
+    stop("`sift` argument is a list but does not contain `n`.")
   if(!"type" %in% names(sift)) sift$type <- "word"
-  resift <- any(sapply(data$data, function(x) any(x[[paste0("n", sift$type)]] < sift$n)))
+  resift <- any(sapply(data$data,
+                       function(x) any(x[[paste0("n", sift$type)]] < sift$n)))
   if(resift){
     data <- do.call(epub_sift, c(list(data), sift))
     Recall(data, pattern, sift)
@@ -62,9 +68,11 @@ epub_recombine <- function(data, pattern, sift = NULL){
   text <- paste0(data$text, collapse = "\n")
   text <- strsplit(gsub(p, "__BREAK__\\1", text), "__BREAK__")[[1]]
   text <- gsub("\\n\\n$", "\\n", text)
-  section <- formatC(1:(length(text) - 1), width = max(2, nchar(length(text))), flag = "0")
+  section <- formatC(1:(length(text) - 1), width = max(2, nchar(length(text))),
+                     flag = "0")
   section <- c("prior", paste0("ch", section))
-  dplyr::data_frame(section = section, text = text) %>%
-    dplyr::mutate(nword = count_words(.data[["text"]]), nchar = nchar(.data[["text"]])) %>%
+  tibble::tibble(section = section, text = text) %>%
+    dplyr::mutate(nword = count_words(.data[["text"]]),
+                  nchar = nchar(.data[["text"]])) %>%
     dplyr::filter(!(.data[["section"]] == "prior" & .data[["text"]] == ""))
 }
