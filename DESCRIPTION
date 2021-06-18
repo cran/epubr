@@ -1,5 +1,5 @@
 Package: epubr
-Version: 0.6.2
+Version: 0.6.3
 Title: Read EPUB File Metadata and Text
 Description: Provides functions supporting the reading and parsing of internal e-book content from EPUB files. 
     The 'epubr' package provides functions supporting the reading and parsing of internal e-book content from EPUB files. 
@@ -17,7 +17,6 @@ Description: Provides functions supporting the reading and parsing of internal e
 Authors@R: person("Matthew", "Leonawicz", email = "mfleonawicz@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9452-2771"))
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 ByteCompile: true
 URL: https://docs.ropensci.org/epubr/ (website)
         https://github.com/ropensci/epubr
@@ -27,8 +26,8 @@ Imports: xml2, xslt, magrittr, tibble, dplyr, tidyr
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2021-02-20 15:48:35 UTC; Matt
+Packaged: 2021-06-18 20:50:22 UTC; Matt
 Author: Matthew Leonawicz [aut, cre] (<https://orcid.org/0000-0001-9452-2771>)
 Maintainer: Matthew Leonawicz <mfleonawicz@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-02-20 22:20:15 UTC
+Date/Publication: 2021-06-18 21:10:07 UTC
