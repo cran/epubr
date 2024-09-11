@@ -3,16 +3,19 @@
 
 # epubr <img src="man/figures/logo.png" style="margin-left:10px;margin-bottom:5px;" width="120" align="right">
 
+<!-- badges: start -->
+
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](http://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)
 [![](https://badges.ropensci.org/222_status.svg)](https://github.com/ropensci/software-review/issues/222)
 [![CRAN
-status](http://www.r-pkg.org/badges/version/epubr)](https://cran.r-project.org/package=epubr)
+status](https://www.r-pkg.org/badges/version/epubr)](https://cran.r-project.org/package=epubr)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/epubr)](https://cran.r-project.org/package=epubr)
+downloads](https://cranlogs.r-pkg.org/badges/epubr)](https://cran.r-project.org/package=epubr)
 [![Github
 Stars](https://img.shields.io/github/stars/ropensci/epubr.svg?style=social&label=Github)](https://github.com/ropensci/epubr)
+<!-- badges: end -->
 
 ## Read EPUB files in R
 
@@ -114,7 +117,7 @@ direct control of the OCR process.
 and text from PDF files (therefore more specific to PDF, and without a
 Java dependency)
 
-[tabulizer](https://github.com/ropensci/tabulizer) by @leeper and
+[tabulizer](https://github.com/ropensci/tabulapdf) by @leeper and
 @tpaskhalis, Bindings for Tabula PDF Table Extractor Library, to extract
 tables, therefore not text, from PDF files.
 
